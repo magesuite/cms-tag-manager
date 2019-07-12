@@ -18,11 +18,6 @@
             <collapsible>true</collapsible>
             <label translate="true">Tags</label>
         </settings>
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="additionalClasses" xsi:type="string">cs-csfeature__logo</item>
-            </item>
-        </argument>
         <field name="cms_page_tags">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -42,11 +37,6 @@
             <collapsible>true</collapsible>
             <label translate="true">Image Teaser</label>
         </settings>
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="additionalClasses" xsi:type="string">cs-csfeature__logo</item>
-            </item>
-        </argument>
         <field name="cms_image_teaser">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
