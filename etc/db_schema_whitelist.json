@@ -1,0 +1,18 @@
+{
+    "cms_page": {
+        "column": {
+            "cms_page_tags": true,
+            "cms_image_teaser": true
+        }
+    },
+    "cms_page_tags": {
+        "column": {
+            "entity_id": true,
+            "cms_page_id": true,
+            "tag_name": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}
