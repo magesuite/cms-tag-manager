@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="cms_page">
+        <column xsi:type="varchar" name="cms_page_tags" length="255" nullable="true" comment="Page Tags"/>
+        <column xsi:type="varchar" name="cms_image_teaser" length="255" nullable="true" comment="Image Teaser"/>
+    </table>
+    <table name="cms_page_tags" resource="default" engine="innodb" comment="CMS Page Tags">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="int" name="cms_page_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="CMS Page Id"/>
+        <column xsi:type="varchar" name="tag_name" length="64" nullable="true"
+                comment="Tag Name"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+            <column name="cms_page_id"/>
+        </constraint>
+    </table>
+</schema>
