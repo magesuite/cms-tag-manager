@@ -26,6 +26,10 @@ class SaveTags
      */
     public function processSave($data)
     {
+        if (!isset($data['page_tags']) || empty($data['page_tags'])) {
+            return;
+        }
+
         $postTagsArray = explode(',', $data['page_tags']);
 
         $pageTags = $this->tagsRepository->getTagsByCmsPageId($data['page_id']);
