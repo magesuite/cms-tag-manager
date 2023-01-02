@@ -54,7 +54,9 @@ class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendControll
                 'size' => 13864
             ]
         ];
-
+        $fileParameters = new \Laminas\Stdlib\Parameters();
+        $fileParameters->set('cms_image_teaser', $_FILES['cms_image_teaser']);
+        $this->getRequest()->setFiles($fileParameters);
         $this->dispatch('backend/cmstags/teaser/upload');
 
         $response = json_decode($this->getResponse()->getBody(), true);
