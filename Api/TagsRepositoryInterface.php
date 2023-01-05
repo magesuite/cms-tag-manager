@@ -2,59 +2,26 @@
 
 namespace MageSuite\CmsTagManager\Api;
 
-use MageSuite\CmsTagManager\Api\Data\TagsInterface;
-
 interface TagsRepositoryInterface
 {
     /**
-     * @param int $id
-     * @return array
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getTagsByCmsPageId($id);
+    public function getTagsByCmsPageId(int $id): array;
 
     /**
-     * @param string $tagName
-     * @return array
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getCmsPagesByTagName($tagName);
+    public function getCmsPagesByTagName(string $tagName): array;
 
-    /**
-     * @param $pageId
-     * @param $tagName
-     * @return \Magento\Framework\DataObject|null
-     */
-    public function getTag($pageId, $tagName);
+    public function getTag($pageId, $tagName): ?\Magento\Framework\DataObject;
+    public function save(\MageSuite\CmsTagManager\Api\Data\TagsInterface $tag): \MageSuite\CmsTagManager\Api\Data\TagsInterface;
 
     /**
      * @param \MageSuite\CmsTagManager\Api\Data\TagsInterface $tag
-     * @return \MageSuite\CmsTagManager\Api\Data\TagsInterface
      */
-    public function save(TagsInterface $tag);
-
-    /**
-     * @param \MageSuite\CmsTagManager\Api\Data\TagsInterface $tag
-     * @return void
-     */
-    public function delete(TagsInterface $tag);
-
-    /**
-     * @return array
-     */
-    public function getAllTags();
-
-
-    /**
-     * @param array $tags
-     * @return \Magento\Cms\Model\ResourceModel\Page\Collection
-     */
-    public function getCmsPageCollectionByTags($tags);
-
-    /**
-     * @param array $tags
-     * @return array
-     */
-    public function getCmsPageIdsByTags($tags);
-
+    public function delete($tag): void;
+    public function getAllTags(): array;
+    public function getCmsPageCollectionByTags(array $tags): \Magento\Cms\Model\ResourceModel\Page\Collection;
+    public function getCmsPageIdsByTags(array $tags): array;
 }

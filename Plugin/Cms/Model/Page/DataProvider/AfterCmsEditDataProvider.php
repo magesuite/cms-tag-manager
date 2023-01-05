@@ -1,12 +1,10 @@
 <?php
-namespace MageSuite\CmsTagManager\Plugin;
+
+namespace MageSuite\CmsTagManager\Plugin\Cms\Model\Page\DataProvider;
 
 class AfterCmsEditDataProvider
 {
-    /**
-     * @var \MageSuite\Opengraph\Service\Admin\CmsImageDataProvider
-     */
-    protected $cmsImageDataProvider;
+    protected \MageSuite\Opengraph\Service\Admin\CmsImageDataProvider $cmsImageDataProvider;
 
     public function __construct(\MageSuite\Opengraph\Service\Admin\CmsImageDataProvider $cmsImageDataProvider)
     {
@@ -16,10 +14,10 @@ class AfterCmsEditDataProvider
     public function afterGetData(\Magento\Cms\Model\Page\DataProvider $subject, $result)
     {
         if (!$result) {
-           return $result;
+            return $result;
         }
 
-        foreach($result as $pageData){
+        foreach ($result as $pageData) {
             if (!isset($pageData['cms_image_teaser'])) {
                 continue;
             }

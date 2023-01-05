@@ -45,7 +45,7 @@ class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendControll
      */
     public function testItUploadFileCorrectly()
     {
-        $_FILES = [
+        $_FILES = [ // phpcs:ignore
             'cms_image_teaser' => [
                 'name' => 'magento_image.jpg',
                 'type' => 'image/jpg',
@@ -55,7 +55,7 @@ class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendControll
             ]
         ];
         $fileParameters = new \Laminas\Stdlib\Parameters();
-        $fileParameters->set('cms_image_teaser', $_FILES['cms_image_teaser']);
+        $fileParameters->set('cms_image_teaser', $_FILES['cms_image_teaser']); // phpcs:ignore
         $this->getRequest()->setFiles($fileParameters);
         $this->dispatch('backend/cmstags/teaser/upload');
 
@@ -63,11 +63,12 @@ class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendControll
         $this->assertTrue(isset($response['name']));
 
         $this->assertTrue(isset($response['name']));
-        $path = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA)->getAbsolutePath() . \MageSuite\CmsTagManager\Model\ImageTeaser::CMS_IMAGE_TEASER_PATH . $response['name'];
+        $path = $this->filesystem
+                ->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA)
+                ->getAbsolutePath() . \MageSuite\CmsTagManager\Model\ImageTeaser::CMS_IMAGE_TEASER_PATH . $response['name'];
         $fileExist = file_exists($path);
         $this->assertTrue($fileExist);
     }
-
 
     /**
      * @magentoDbIsolation enabled
@@ -75,7 +76,7 @@ class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendControll
      */
     public function testUploadWithWrongData()
     {
-        $_FILES = [
+        $_FILES = [ // phpcs:ignore
             'brand_icon' => [
                 'name' => 'magento_image.jpg',
                 'type' => 'image/jpg',
@@ -92,7 +93,8 @@ class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendControll
         $this->assertTrue(isset($response['error']));
     }
 
-    public static function moveCmsImageToTmp() {
+    public static function moveCmsImageToTmp()
+    {
         include __DIR__.'/../../../../_files/cms_image.php';
     }
 }

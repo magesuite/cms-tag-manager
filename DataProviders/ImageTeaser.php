@@ -4,25 +4,10 @@ namespace MageSuite\CmsTagManager\DataProviders;
 
 class ImageTeaser extends \MageSuite\Opengraph\DataProviders\TagProvider implements \MageSuite\Opengraph\DataProviders\TagProviderInterface
 {
-    /**
-     * @var \Magento\Cms\Api\Data\PageInterface
-     */
-    protected $page;
-
-    /**
-     * @var \MageSuite\Opengraph\Service\CmsImageUrlProvider
-     */
-    protected $cmsImageUrlProvider;
-
-    /**
-     * @var \MageSuite\Opengraph\Factory\TagFactoryInterface
-     */
-    protected $tagFactory;
-
-    /**
-     * @var \MageSuite\Opengraph\Helper\Mime
-     */
-    protected $mimeHelper;
+    protected \Magento\Cms\Api\Data\PageInterface $page;
+    protected \MageSuite\Opengraph\Service\CmsImageUrlProvider $cmsImageUrlProvider;
+    protected \MageSuite\Opengraph\Factory\TagFactoryInterface $tagFactory;
+    protected \MageSuite\Opengraph\Helper\Mime $mimeHelper;
 
     protected $tags = [];
 
@@ -31,8 +16,7 @@ class ImageTeaser extends \MageSuite\Opengraph\DataProviders\TagProvider impleme
         \MageSuite\Opengraph\Service\CmsImageUrlProvider $cmsImageUrlProvider,
         \MageSuite\Opengraph\Factory\TagFactoryInterface $tagFactory,
         \MageSuite\Opengraph\Helper\Mime $mimeHelper
-    )
-    {
+    ) {
         $this->page = $page;
         $this->cmsImageUrlProvider = $cmsImageUrlProvider;
         $this->tagFactory = $tagFactory;
@@ -41,7 +25,7 @@ class ImageTeaser extends \MageSuite\Opengraph\DataProviders\TagProvider impleme
 
     public function getTags()
     {
-        if(!$this->page->getIdentifier()){
+        if (!$this->page->getIdentifier()) {
             return [];
         }
 
@@ -55,13 +39,13 @@ class ImageTeaser extends \MageSuite\Opengraph\DataProviders\TagProvider impleme
         $pageData = array_filter($this->page->getData());
         $cmsImageTeaser = $this->page->getCmsImageTeaser();
 
-        if(!$cmsImageTeaser){
+        if (!$cmsImageTeaser) {
             return;
         }
 
         $imageUrl = $this->cmsImageUrlProvider->getImageUrl($cmsImageTeaser, \MageSuite\CmsTagManager\Model\ImageTeaser::CMS_IMAGE_TEASER_PATH);
 
-        if(!$imageUrl){
+        if (!$imageUrl) {
             return;
         }
 
@@ -70,18 +54,16 @@ class ImageTeaser extends \MageSuite\Opengraph\DataProviders\TagProvider impleme
 
         $mimeType = $this->mimeHelper->getMimeType($imageUrl);
 
-        if($mimeType){
+        if ($mimeType) {
             $tag = $this->tagFactory->getTag('image:type', $mimeType);
             $this->addTag($tag);
         }
 
         $title = $pageData['og_title'] ?? $pageData['meta_title'] ?? $pageData['title'] ?? null;
 
-        if($title){
+        if ($title) {
             $tag = $this->tagFactory->getTag('image:alt', $title);
-            $this->addTag($tag);;
+            $this->addTag($tag);
         }
-
-        return;
     }
 }

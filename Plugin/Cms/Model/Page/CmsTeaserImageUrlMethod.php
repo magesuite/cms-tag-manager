@@ -1,5 +1,5 @@
 <?php
-namespace MageSuite\CmsTagManager\Plugin;
+namespace MageSuite\CmsTagManager\Plugin\Cms\Model\Page;
 
 class CmsTeaserImageUrlMethod
 {

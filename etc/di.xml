@@ -5,13 +5,13 @@
     <preference for="MageSuite\CmsTagManager\Api\Data\TagsInterface"
                 type="MageSuite\CmsTagManager\Model\Tags" />
     <type name="Magento\Cms\Model\Page\DataProvider">
-        <plugin name="after_cms_edit_data_provider" type="\MageSuite\CmsTagManager\Plugin\AfterCmsEditDataProvider" sortOrder="1" />
+        <plugin name="after_cms_edit_data_provider" type="MageSuite\CmsTagManager\Plugin\Cms\Model\Page\DataProvider\AfterCmsEditDataProvider" sortOrder="1" />
     </type>
     <type name="Magento\Cms\Model\ResourceModel\Page\Collection">
-        <plugin name="filter_cms_collection_by_tag" type="MageSuite\CmsTagManager\Plugin\AroundFilterByTag" sortOrder="10" />
+        <plugin name="filter_cms_collection_by_tag" type="MageSuite\CmsTagManager\Plugin\Cms\Model\Page\Collection\AroundFilterByTag" sortOrder="10" />
     </type>
     <type name="Magento\Cms\Model\Page">
-        <plugin name="cms_teaser_image_url_method" type="MageSuite\CmsTagManager\Plugin\CmsTeaserImageUrlMethod" sortOrder="10" />
+        <plugin name="cms_teaser_image_url_method" type="MageSuite\CmsTagManager\Plugin\Cms\Model\Page\CmsTeaserImageUrlMethod" sortOrder="10" />
     </type>
 
     <type name="MageSuite\Opengraph\Service\TagsCollector">

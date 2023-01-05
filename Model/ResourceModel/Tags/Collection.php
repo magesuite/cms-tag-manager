@@ -12,8 +12,8 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     protected function _construct()
     {
         $this->_init(
-            'MageSuite\CmsTagManager\Model\Tags',
-            'MageSuite\CmsTagManager\Model\ResourceModel\Tags'
+            \MageSuite\CmsTagManager\Model\Tags::class,
+            \MageSuite\CmsTagManager\Model\ResourceModel\Tags::class
         );
     }
 }

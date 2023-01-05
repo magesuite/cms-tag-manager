@@ -16,8 +16,7 @@ class Upload extends \Magento\Framework\App\Action\Action
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \MageSuite\Opengraph\Service\Processor\UploadImageFactory $uploadImage
-    )
-    {
+    ) {
         parent::__construct($context);
         $this->uploadImage = $uploadImage;
     }
@@ -29,8 +28,7 @@ class Upload extends \Magento\Framework\App\Action\Action
     {
         try {
             $result = $this->uploadImage->create()->processUpload('cms_image_teaser', \MageSuite\CmsTagManager\Model\ImageTeaser::CMS_IMAGE_TEASER_PATH);
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             $result = ['error' => $e->getMessage(), 'errorcode' => $e->getCode()];
         }
         return $this->resultFactory->create(\Magento\Framework\Controller\ResultFactory::TYPE_JSON)->setData($result);

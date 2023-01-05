@@ -90,7 +90,8 @@ class SaveTagsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public static function loadPages() {
+    public static function loadPages()
+    {
         include __DIR__.'/../../../_files/pages.php';
     }
 }
