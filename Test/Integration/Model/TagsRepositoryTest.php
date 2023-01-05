@@ -49,7 +49,6 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->itReturnsCmsPageCollectionByTags();
     }
 
-
     protected function itReturnTagsByCmsPageId()
     {
         $tagsRepository = $this->tagsRepository;
@@ -79,7 +78,6 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
         $tag = $tagsRepository->getTag(2, 'two');
 
         $this->assertInstanceOf(\MageSuite\CmsTagManager\Model\Tags::class, $tag);
-
 
         $tag = $tagsRepository->getTag(2, 'not existing tag');
 
@@ -141,7 +139,8 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public static function loadPages() {
+    public static function loadPages()
+    {
         include __DIR__.'/../../_files/pages.php';
     }
 }

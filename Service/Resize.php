@@ -6,43 +6,27 @@ class Resize
 {
     const PLACEHOLDER_DIRECTORY = 'catalog/product/placeholder/';
 
-    /**
-     * @var \Magento\Framework\View\ConfigInterface
-     */
-    protected $viewConfig;
-
-    /**
-     * @var \Magento\Framework\Config\View
-     */
-    protected $configView;
-
-    /**
-     * @var \Magento\Framework\Filesystem
-     */
-    protected $filesystem;
-
-    /**
-     * @var \MageSuite\ImageResize\Helper\Configuration
-     */
-    protected $configuration;
-
-    /**
-     * @var \MageSuite\ImageResize\Service\Image\Resize
-     */
-    protected $imageResize;
+    protected \Magento\Framework\View\ConfigInterface $viewConfig;
+    protected \Magento\Framework\Config\View $configView;
+    protected \Magento\Framework\Filesystem $filesystem;
+    protected \MageSuite\ImageResize\Helper\Configuration $configuration;
+    protected \MageSuite\ImageResize\Service\Image\Resize $imageResize;
+    protected \Magento\Framework\Filesystem\Io\File $file;
 
     public function __construct(
         \Magento\Framework\View\ConfigInterface $viewConfig,
         \Magento\Framework\Config\View $configView,
         \Magento\Framework\Filesystem $filesystem,
         \MageSuite\ImageResize\Helper\Configuration $configuration,
-        \MageSuite\ImageResize\Service\Image\Resize $imageResize
+        \MageSuite\ImageResize\Service\Image\Resize $imageResize,
+        \Magento\Framework\Filesystem\Io\File $file
     ) {
         $this->viewConfig = $viewConfig;
         $this->configView = $configView;
         $this->filesystem = $filesystem;
         $this->configuration = $configuration;
         $this->imageResize = $imageResize;
+        $this->file = $file;
     }
 
     public function getUrl($imageUrl, $module, $imageId)
@@ -71,7 +55,7 @@ class Resize
         return $this->configuration->getMediaBaseUrl() . self::PLACEHOLDER_DIRECTORY . $placeholderPathFromConfig;
     }
 
-    protected function getConfigView()
+    protected function getConfigView(): \Magento\Framework\Config\View
     {
         if (!$this->configView) {
             $this->configView = $this->viewConfig->getViewConfig();
@@ -79,13 +63,13 @@ class Resize
         return $this->configView;
     }
 
-    protected function getResizedImageUrl($imageUrl, $configuration)
+    protected function getResizedImageUrl($imageUrl, $configuration): string
     {
         $imagePath = $this->prepareResizedImagePath($imageUrl, $configuration);
 
         $path = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA)->getAbsolutePath($imagePath);
 
-        if (!file_exists($path)) {
+        if (!$this->file->fileExists($path)) {
             $this->resizeImage($imageUrl, $imagePath, $configuration);
         }
 
@@ -94,7 +78,7 @@ class Resize
 
     protected function prepareResizedImagePath($imageUrl, $configuration)
     {
-        $pathInfo = pathinfo($imageUrl);
+        $pathInfo = $this->file->getPathInfo($imageUrl);
 
         if (!isset($pathInfo['dirname']) || !isset($pathInfo['basename'])) {
             return $imageUrl;

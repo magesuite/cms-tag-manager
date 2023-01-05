@@ -26,7 +26,6 @@ interface TagsInterface
      */
     public function setCmsPageId($cmsPageID);
 
-
     /**
      * @return mixed
      */

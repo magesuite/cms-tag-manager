@@ -3,23 +3,15 @@ namespace MageSuite\CmsTagManager\Model\Config\Source;
 
 class TagsOptions implements \Magento\Framework\Option\ArrayInterface
 {
-
-    /**
-     * @var \MageSuite\CmsTagManager\Api\TagsRepositoryInterface
-     */
-    private $tagsRepository;
+    protected \MageSuite\CmsTagManager\Api\TagsRepositoryInterface $tagsRepository;
 
     public function __construct(
         \MageSuite\CmsTagManager\Api\TagsRepositoryInterface $tagsRepository
-    )
-    {
+    ) {
         $this->tagsRepository = $tagsRepository;
     }
 
-    /**
-     * @return array
-     */
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         $result = [];
 

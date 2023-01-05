@@ -66,7 +66,9 @@ class CmsPageDataMapperTest extends \PHPUnit\Framework\TestCase
 
     protected function prepareImages()
     {
-        @mkdir(BP . '/pub/media/cmsteaser');
+        if (!file_exists(BP . '/pub/media/cmsteaser')) {
+            mkdir(BP . '/pub/media/cmsteaser');
+        }
         copy(__DIR__ . '/../../../_files/image1.jpg', BP . '/pub/media/cmsteaser/image1.jpg');
         copy(__DIR__ . '/../../../_files/image2.jpg', BP . '/pub/media/cmsteaser/image2.jpg');
     }

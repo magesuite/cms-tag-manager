@@ -3,16 +3,12 @@ namespace MageSuite\CmsTagManager\Observer;
 
 class BeforeCmsPageSave implements \Magento\Framework\Event\ObserverInterface
 {
-    /**
-     * @var \MageSuite\CmsTagManager\Service\Processor\SaveTags
-     */
-    private $saveTagsProcessor;
+    protected \Magento\Framework\App\RequestInterface $request;
 
     public function __construct(
-        \MageSuite\CmsTagManager\Service\Processor\SaveTags $saveTagsProcessor
-    )
-    {
-        $this->saveTagsProcessor = $saveTagsProcessor;
+        \Magento\Framework\App\RequestInterface $request
+    ) {
+        $this->request = $request;
     }
 
     /**
@@ -21,6 +17,12 @@ class BeforeCmsPageSave implements \Magento\Framework\Event\ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $pageObject = $observer->getObject();
+
+        $params = $this->request->getParams();
+        if ($params && (!isset($params['cms_image_teaser']) || !$params['cms_image_teaser'])) {
+            $pageObject->setData('cms_image_teaser', null);
+            return;
+        }
 
         $imageTeaserData = $pageObject->getData('cms_image_teaser');
 

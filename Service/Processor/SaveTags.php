@@ -3,28 +3,18 @@ namespace MageSuite\CmsTagManager\Service\Processor;
 
 class SaveTags
 {
-    /**
-     * @var \MageSuite\CmsTagManager\Api\TagsRepositoryInterface
-     */
-    private $tagsRepository;
-    /**
-     * @var \MageSuite\CmsTagManager\Model\TagsFactory
-     */
-    private $tags;
+    protected \MageSuite\CmsTagManager\Api\TagsRepositoryInterface $tagsRepository;
+    protected \MageSuite\CmsTagManager\Model\TagsFactory $tags;
 
     public function __construct(
         \MageSuite\CmsTagManager\Api\TagsRepositoryInterface $tagsRepository,
         \MageSuite\CmsTagManager\Model\TagsFactory $tags
-    )
-    {
+    ) {
         $this->tagsRepository = $tagsRepository;
         $this->tags = $tags;
     }
 
-    /**
-     * @param array $data
-     */
-    public function processSave($data)
+    public function processSave(array $data)
     {
         if (!isset($data['page_tags']) || empty($data['page_tags'])) {
             return;

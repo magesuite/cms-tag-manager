@@ -4,31 +4,12 @@ namespace MageSuite\CmsTagManager\Model;
 
 class TagsRepository implements \MageSuite\CmsTagManager\Api\TagsRepositoryInterface
 {
-
-    /**
-     * @var ResourceModel\Tags\CollectionFactory
-     */
-    private $collectionFactory;
-    /**
-     * @var ResourceModel\Tags
-     */
-    private $tagsResource;
-    /**
-     * @var \Magento\Cms\Model\ResourceModel\Page\Collection
-     */
-    private $cmsPageCollection;
-    /**
-     * @var \Magento\Cms\Helper\Page
-     */
-    private $cmsPageHelper;
-    /**
-     * @var \MageSuite\ContentConstructorFrontend\Service\MediaResolver
-     */
-    private $mediaResolver;
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    private $storeManager;
+    protected ResourceModel\Tags\CollectionFactory $collectionFactory;
+    protected ResourceModel\Tags $tagsResource;
+    protected \Magento\Cms\Model\ResourceModel\Page\CollectionFactory $cmsPageCollection;
+    protected \Magento\Cms\Helper\Page $cmsPageHelper;
+    protected \MageSuite\ContentConstructorFrontend\Service\MediaResolver $mediaResolver;
+    protected \Magento\Store\Model\StoreManagerInterface $storeManager;
 
     public function __construct(
         \MageSuite\CmsTagManager\Model\ResourceModel\Tags\CollectionFactory $collectionFactory,
@@ -37,8 +18,7 @@ class TagsRepository implements \MageSuite\CmsTagManager\Api\TagsRepositoryInter
         \Magento\Cms\Helper\Page $cmsPageHelper,
         \MageSuite\ContentConstructorFrontend\Service\MediaResolver $mediaResolver,
         \Magento\Store\Model\StoreManagerInterface $storeManager
-    )
-    {
+    ) {
         $this->collectionFactory = $collectionFactory;
         $this->tagsResource = $tagsResource;
         $this->cmsPageCollection = $cmsPageCollection;
@@ -47,42 +27,25 @@ class TagsRepository implements \MageSuite\CmsTagManager\Api\TagsRepositoryInter
         $this->storeManager = $storeManager;
     }
 
-    /**
-     * @param int $id
-     * @return array
-     */
-    public function getTagsByCmsPageId($id)
+    public function getTagsByCmsPageId(int $id): array
     {
         $tagsCollection = $this->collectionFactory->create();
 
         $tagsCollection->getSelect()->where('cms_page_id =?', $id);
 
-        $pageTags = $tagsCollection->getColumnValues('tag_name');
-
-        return $pageTags;
+        return $tagsCollection->getColumnValues('tag_name');
     }
 
-    /**
-     * @param $tagName
-     * @return array
-     */
-    public function getCmsPagesByTagName($tagName)
+    public function getCmsPagesByTagName(string $tagName): array
     {
         $tagsCollection = $this->collectionFactory->create();
 
         $tagsCollection->getSelect()->where('tag_name =?', $tagName);
 
-        $cmsPageIds = $tagsCollection->getColumnValues('cms_page_id');
-
-        return $cmsPageIds;
+        return $tagsCollection->getColumnValues('cms_page_id');
     }
 
-    /**
-     * @param $pageId
-     * @param $tagName
-     * @return \Magento\Framework\DataObject|null
-     */
-    public function getTag($pageId, $tagName)
+    public function getTag($pageId, $tagName): ?\Magento\Framework\DataObject
     {
         $tagsCollection = $this->collectionFactory->create();
 
@@ -90,58 +53,37 @@ class TagsRepository implements \MageSuite\CmsTagManager\Api\TagsRepositoryInter
             ->where('cms_page_id =?', $pageId)
             ->where('tag_name =?', $tagName);
 
-        if($tagsCollection->getSize()){
+        if ($tagsCollection->getSize()) {
             return $tagsCollection->getFirstItem();
         }
 
         return null;
     }
 
-    /**
-     * @param \MageSuite\CmsTagManager\Api\Data\TagsInterface $tag
-     * @return $this
-     */
-    public function save(\MageSuite\CmsTagManager\Api\Data\TagsInterface $tag)
+    public function save(\MageSuite\CmsTagManager\Api\Data\TagsInterface $tag): \MageSuite\CmsTagManager\Api\Data\TagsInterface
     {
-        if(!$this->getTag($tag->getCmsPageId(), $tag->getTagName())){
+        if (!$this->getTag($tag->getCmsPageId(), $tag->getTagName())) {
             $this->tagsResource->save($tag);
         }
 
-        return $this;
+        return $tag;
     }
 
-    /**
-     * @param \MageSuite\CmsTagManager\Api\Data\TagsInterface $tag
-     * @return $this
-     */
-    public function delete(\MageSuite\CmsTagManager\Api\Data\TagsInterface $tag)
+    public function delete($tag): void
     {
-        if($this->getTag($tag->getCmsPageId(), $tag->getTagName())){
+        if ($this->getTag($tag->getCmsPageId(), $tag->getTagName())) {
             $this->tagsResource->delete($tag);
         }
-
-        return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getAllTags()
+    public function getAllTags(): array
     {
         $tagsCollection = $this->collectionFactory->create();
-
         $tagsCollection->getSelect()->group('tag_name');
-
-        $availableTags = $tagsCollection->getColumnValues('tag_name');
-
-        return $availableTags;
+        return $tagsCollection->getColumnValues('tag_name');
     }
 
-    /**
-     * @param array $tags
-     * @return \Magento\Cms\Model\ResourceModel\Page\Collection
-     */
-    public function getCmsPageCollectionByTags($tags)
+    public function getCmsPageCollectionByTags(array $tags): \Magento\Cms\Model\ResourceModel\Page\Collection
     {
         $tagsCollection = $this->collectionFactory->create();
 
@@ -156,18 +98,10 @@ class TagsRepository implements \MageSuite\CmsTagManager\Api\TagsRepositoryInter
         return $collection;
     }
 
-    /**
-     * @param array $tags
-     * @return array
-     */
-    public function getCmsPageIdsByTags($tags)
+    public function getCmsPageIdsByTags(array $tags): array
     {
         $tagsCollection = $this->collectionFactory->create();
-
         $tagsCollection->addFieldToFilter('tag_name', ['in' => $tags]);
-
-        $pagesIds = $tagsCollection->getColumnValues('cms_page_id');
-
-        return $pagesIds;
+        return $tagsCollection->getColumnValues('cms_page_id');
     }
 }

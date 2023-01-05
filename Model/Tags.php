@@ -4,24 +4,9 @@ namespace MageSuite\CmsTagManager\Model;
 
 class Tags extends \Magento\Catalog\Model\AbstractModel implements \MageSuite\CmsTagManager\Api\Data\TagsInterface
 {
-
-    public function __construct(
-        \Magento\Framework\Model\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\Api\ExtensionAttributesFactory $extensionFactory,
-        \Magento\Framework\Api\AttributeValueFactory $customAttributeFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        array $data = []
-    )
-    {
-        parent::__construct($context, $registry, $extensionFactory, $customAttributeFactory, $storeManager, $resource, $resourceCollection, $data);
-    }
-
     protected function _construct()
     {
-        $this->_init('MageSuite\CmsTagManager\Model\ResourceModel\Tags');
+        $this->_init(\MageSuite\CmsTagManager\Model\ResourceModel\Tags::class);
     }
 
     /**
@@ -57,6 +42,4 @@ class Tags extends \Magento\Catalog\Model\AbstractModel implements \MageSuite\Cm
     {
         return $this->setData('tag_name', $tagName);
     }
-
-
 }
