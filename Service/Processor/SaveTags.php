@@ -16,7 +16,7 @@ class SaveTags
 
     public function processSave(array $data)
     {
-        if (!isset($data['page_tags']) || empty($data['page_tags'])) {
+        if (!isset($data['page_tags']) || $data['page_tags'] === null) {
             return;
         }
 

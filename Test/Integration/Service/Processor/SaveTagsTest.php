@@ -25,9 +25,7 @@ class SaveTagsTest extends \PHPUnit\Framework\TestCase
     public function setUp(): void
     {
         $this->objectManager = \Magento\TestFramework\ObjectManager::getInstance();
-
         $this->saveProcessor = $this->objectManager->create(\MageSuite\CmsTagManager\Service\Processor\SaveTags::class);
-
         $this->tagsRepository = $this->objectManager->create(\MageSuite\CmsTagManager\Api\TagsRepositoryInterface::class);
     }
 
@@ -65,7 +63,10 @@ class SaveTagsTest extends \PHPUnit\Framework\TestCase
                 'page_id' => 4,
                 'page_tags' => 'two,four,nine'
             ],
-
+            [
+                'page_id' => 5,
+                'page_tags' => ''
+            ],
         ];
     }
 
@@ -86,7 +87,8 @@ class SaveTagsTest extends \PHPUnit\Framework\TestCase
                 'two',
                 'four',
                 'nine'
-            ]
+            ],
+            5 => [],
         ];
     }
 
