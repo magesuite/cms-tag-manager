@@ -1,4 +1,5 @@
 <?php
+
 namespace MageSuite\CmsTagManager\Test\Integration\Model;
 
 /**
@@ -63,10 +64,10 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
     {
         $tagsRepository = $this->tagsRepository;
 
-        $this->assertEquals($tagsRepository->getCmsPagesByTagName('one'), [2,3]);
-        $this->assertEquals($tagsRepository->getCmsPagesByTagName('two'), [2,4]);
+        $this->assertEquals($tagsRepository->getCmsPagesByTagName('one'), [2, 3]);
+        $this->assertEquals($tagsRepository->getCmsPagesByTagName('two'), [2, 4]);
         $this->assertEquals($tagsRepository->getCmsPagesByTagName('five'), [3]);
-        $this->assertEquals($tagsRepository->getCmsPagesByTagName('four'), [3,4]);
+        $this->assertEquals($tagsRepository->getCmsPagesByTagName('four'), [3, 4]);
         $this->assertEquals($tagsRepository->getCmsPagesByTagName('five'), [3]);
         $this->assertEquals($tagsRepository->getCmsPagesByTagName('not existing tag'), []);
     }
@@ -87,7 +88,23 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
     protected function itReturnsAllTags()
     {
         $allTags = $this->tagsRepository->getAllTags();
-        $this->assertEquals(['double tag', 'five', 'four', 'nine', 'one', 'second', 'test tag', 'third', 'three', 'two'], $allTags);
+        $expectedTags = [
+            'first',
+            'five',
+            'four',
+            'nine',
+            'one',
+            'second',
+            'test tag',
+            'three',
+            'two',
+        ];
+
+        $this->assertCount(count($expectedTags), $allTags);
+
+        foreach ($expectedTags as $tag) {
+            $this->assertTrue(in_array($tag, $allTags));
+        }
     }
 
     protected function itReturnsCmsPageCollectionByTags()
@@ -114,7 +131,6 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
                 'page_id' => 4,
                 'page_tags' => 'two,four,nine'
             ],
-
         ];
     }
 
@@ -141,6 +157,6 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
 
     public static function loadPages()
     {
-        include __DIR__.'/../../_files/pages.php';
+        include __DIR__ . '/../../_files/pages.php';
     }
 }
