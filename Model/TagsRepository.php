@@ -79,7 +79,7 @@ class TagsRepository implements \MageSuite\CmsTagManager\Api\TagsRepositoryInter
     public function getAllTags(): array
     {
         $tagsCollection = $this->collectionFactory->create();
-        $tagsCollection->getSelect()->group('tag_name');
+        $tagsCollection->getSelect()->group('tag_name')->order('tag_name ASC');
         return $tagsCollection->getColumnValues('tag_name');
     }
 
