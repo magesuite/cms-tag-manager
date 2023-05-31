@@ -61,4 +61,3 @@ $page->setTitle('Cms Test Tag Page5')
     ->setCmsPageTags('first,second')
     ->setCmsImageTeaser('image5.jpg')
     ->save();
-
