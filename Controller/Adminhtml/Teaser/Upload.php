@@ -1,30 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MageSuite\CmsTagManager\Controller\Adminhtml\Teaser;
 
-class Upload extends \Magento\Framework\App\Action\Action
+class Upload extends \Magento\Backend\App\Action
 {
-    /**
-     * @var \MageSuite\Opengraph\Service\Processor\UploadImageFactory
-     */
-    protected $uploadImage;
-
     /**
      * Save constructor.
      * @param \Magento\Backend\App\Action\Context $context
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \MageSuite\Opengraph\Service\Processor\UploadImageFactory $uploadImage
+        protected \MageSuite\Opengraph\Service\Processor\UploadImageFactory $uploadImage
     ) {
         parent::__construct($context);
-        $this->uploadImage = $uploadImage;
     }
 
     /**
      * @return \Magento\Framework\Controller\ResultFactory
      */
-    public function execute()
+    public function execute() //phpcs:ignore
     {
         try {
             $result = $this->uploadImage->create()->processUpload('cms_image_teaser', \MageSuite\CmsTagManager\Model\ImageTeaser::CMS_IMAGE_TEASER_PATH);
@@ -37,7 +33,7 @@ class Upload extends \Magento\Framework\App\Action\Action
     /**
      * @return bool
      */
-    protected function _isAllowed()
+    protected function _isAllowed() //phpcs:ignore
     {
         return true;
     }
