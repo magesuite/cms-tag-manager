@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MageSuite\CmsTagManager\Test\Integration\Model;
 
 /**
@@ -8,20 +10,9 @@ namespace MageSuite\CmsTagManager\Test\Integration\Model;
  */
 class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \Magento\TestFramework\ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * @var \MageSuite\CmsTagManager\Service\Processor\SaveTags
-     */
-    protected $saveProcessor;
-
-    /**
-     * @var \MageSuite\CmsTagManager\Api\TagsRepositoryInterface
-     */
-    protected $tagsRepository;
+    protected ?\Magento\TestFramework\ObjectManager $objectManager;
+    protected ?\MageSuite\CmsTagManager\Service\Processor\SaveTags $saveProcessor;
+    protected ?\MageSuite\CmsTagManager\Api\TagsRepositoryInterface $tagsRepository;
 
     public function setUp(): void
     {
@@ -34,9 +25,9 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @magentoDbIsolation enabled
-     * @magentoDataFixture loadPages
+     * @magentoDataFixture MageSuite_CmsTagManager::Test/_files/pages.php
      */
-    public function testTagsRepository()
+    public function testTagsRepository(): void
     {
         $saveProcessor = $this->saveProcessor;
 
@@ -50,7 +41,7 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->itReturnsCmsPageCollectionByTags();
     }
 
-    protected function itReturnTagsByCmsPageId()
+    protected function itReturnTagsByCmsPageId(): void
     {
         $tagsRepository = $this->tagsRepository;
 
@@ -60,7 +51,7 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedTags[4], $tagsRepository->getTagsByCmsPageId(4));
     }
 
-    protected function itReturnsCmsPagesByTagName()
+    protected function itReturnsCmsPagesByTagName(): void
     {
         $tagsRepository = $this->tagsRepository;
 
@@ -72,7 +63,7 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($tagsRepository->getCmsPagesByTagName('not existing tag'), []);
     }
 
-    protected function itReturnsTag()
+    protected function itReturnsTag(): void
     {
         $tagsRepository = $this->tagsRepository;
 
@@ -85,7 +76,7 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($tag);
     }
 
-    protected function itReturnsAllTags()
+    protected function itReturnsAllTags(): void
     {
         $allTags = $this->tagsRepository->getAllTags();
         $expectedTags = [
@@ -107,7 +98,7 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    protected function itReturnsCmsPageCollectionByTags()
+    protected function itReturnsCmsPageCollectionByTags(): void
     {
         $tagsCollection = $this->tagsRepository->getCmsPageCollectionByTags(['two']);
 
@@ -116,7 +107,7 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $tagsCollection->getSize());
     }
 
-    private function dummyCmsPagesTags()
+    protected function dummyCmsPagesTags(): array
     {
         return [
             [
@@ -134,7 +125,7 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    private function expectedTags()
+    protected function expectedTags(): array
     {
         return [
             2 => [
@@ -153,10 +144,5 @@ class TagsRepositoryTest extends \PHPUnit\Framework\TestCase
                 'nine'
             ]
         ];
-    }
-
-    public static function loadPages()
-    {
-        include __DIR__ . '/../../_files/pages.php';
     }
 }
