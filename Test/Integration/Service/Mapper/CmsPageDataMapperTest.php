@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace MageSuite\CmsTagManager\Test\Integration\Service\Mapper;
 
 /**
@@ -7,20 +10,9 @@ namespace MageSuite\CmsTagManager\Test\Integration\Service\Mapper;
  */
 class CmsPageDataMapperTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \Magento\TestFramework\ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * @var \MageSuite\CmsTagManager\Service\Mapper\CmsPageDataMapper
-     */
-    protected $dataMapper;
-
-    /**
-     * @var \Magento\Cms\Model\ResourceModel\Page\Collection
-     */
-    protected $cmsPageCollection;
+    protected ?\Magento\TestFramework\ObjectManager $objectManager;
+    protected ?\MageSuite\CmsTagManager\Service\Mapper\CmsPageDataMapper $dataMapper;
+    protected ?\Magento\Cms\Model\ResourceModel\Page\Collection $cmsPageCollection;
 
     public function setUp(): void
     {
@@ -33,9 +25,9 @@ class CmsPageDataMapperTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @magentoDbIsolation enabled
-     * @magentoDataFixture loadPages
+     * @magentoDataFixture MageSuite_CmsTagManager::Test/_files/pages.php
      */
-    public function testItMapsPageCorrectly()
+    public function testItMapsPageCorrectly(): void
     {
         $this->prepareImages();
 
@@ -59,12 +51,7 @@ class CmsPageDataMapperTest extends \PHPUnit\Framework\TestCase
         $this->$assertContains('image1.jpg 2x', $result['image']['srcSet']);
     }
 
-    public static function loadPages()
-    {
-        include __DIR__ . '/../../../_files/pages.php';
-    }
-
-    protected function prepareImages()
+    protected function prepareImages(): void
     {
         if (!file_exists(BP . '/pub/media/cmsteaser')) {
             mkdir(BP . '/pub/media/cmsteaser');

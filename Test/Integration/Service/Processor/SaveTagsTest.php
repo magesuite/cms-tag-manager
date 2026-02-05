@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace MageSuite\CmsTagManager\Test\Integration\Service\Processor;
 
 /**
@@ -7,20 +10,9 @@ namespace MageSuite\CmsTagManager\Test\Integration\Service\Processor;
  */
 class SaveTagsTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \Magento\TestFramework\ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * @var \MageSuite\CmsTagManager\Service\Processor\SaveTags
-     */
-    protected $saveProcessor;
-
-    /**
-     * @var \MageSuite\CmsTagManager\Api\TagsRepositoryInterface
-     */
-    protected $tagsRepository;
+    protected ?\Magento\TestFramework\ObjectManager $objectManager;
+    protected ?\MageSuite\CmsTagManager\Service\Processor\SaveTags $saveProcessor;
+    protected ?\MageSuite\CmsTagManager\Api\TagsRepositoryInterface $tagsRepository;
 
     public function setUp(): void
     {
@@ -31,9 +23,9 @@ class SaveTagsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @magentoDbIsolation enabled
-     * @magentoDataFixture loadPages
+     * @magentoDataFixture MageSuite_CmsTagManager::Test/_files/pages.php
      */
-    public function testItSavesTagsCorrectly()
+    public function testItSavesTagsCorrectly(): void
     {
         $saveProcessor = $this->saveProcessor;
 
@@ -48,7 +40,7 @@ class SaveTagsTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    private function dummyCmsPagesTags()
+    protected function dummyCmsPagesTags(): array
     {
         return [
             [
@@ -70,7 +62,7 @@ class SaveTagsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    private function expectedTags()
+    protected function expectedTags(): array
     {
         return [
             2 => [
@@ -90,10 +82,5 @@ class SaveTagsTest extends \PHPUnit\Framework\TestCase
             ],
             5 => [],
         ];
-    }
-
-    public static function loadPages()
-    {
-        include __DIR__.'/../../../_files/pages.php';
     }
 }

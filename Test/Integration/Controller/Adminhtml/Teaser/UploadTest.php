@@ -1,31 +1,20 @@
 <?php
+
+declare(strict_types=1);
+
 namespace MageSuite\CmsTagManager\Test\Integration\Controller\Adminhtml\Teaser;
 
 /**
  * @magentoDbIsolation enabled
  * @magentoAppIsolation enabled
+ * @SuppressWarnings(PHPMD.Superglobals)
  */
 class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendController
 {
-    /**
-     * @var \Magento\TestFramework\ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * @var \MageSuite\Opengraph\Service\Processor\UploadImage
-     */
-    protected $uploadProcessor;
-
-    /**
-     * @var \MageSuite\CmsTagManager\Api\TagsRepositoryInterface
-     */
-    protected $tagsRepository;
-
-    /**
-     * @var \Magento\Framework\Filesystem
-     */
-    protected $filesystem;
+    protected ?\Magento\TestFramework\ObjectManager $objectManager;
+    protected ?\MageSuite\Opengraph\Service\Processor\UploadImage $uploadProcessor;
+    protected ?\MageSuite\CmsTagManager\Api\TagsRepositoryInterface $tagsRepository;
+    protected ?\Magento\Framework\Filesystem $filesystem;
 
     public function setUp(): void
     {
@@ -41,9 +30,9 @@ class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendControll
 
     /**
      * @magentoDbIsolation enabled
-     * @magentoDataFixture moveCmsImageToTmp
+     * @magentoDataFixture MageSuite_CmsTagManager::Test/_files/cms_image.php
      */
-    public function testItUploadFileCorrectly()
+    public function testItUploadFileCorrectly(): void
     {
         $_FILES = [ // phpcs:ignore
             'cms_image_teaser' => [
@@ -72,9 +61,9 @@ class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendControll
 
     /**
      * @magentoDbIsolation enabled
-     * @magentoDataFixture moveCmsImageToTmp
+     * @magentoDataFixture MageSuite_CmsTagManager::Test/_files/cms_image.php
      */
-    public function testUploadWithWrongData()
+    public function testUploadWithWrongData(): void
     {
         $_FILES = [ // phpcs:ignore
             'brand_icon' => [
@@ -91,10 +80,5 @@ class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendControll
         $response = json_decode($this->getResponse()->getBody(), true);
 
         $this->assertTrue(isset($response['error']));
-    }
-
-    public static function moveCmsImageToTmp()
-    {
-        include __DIR__.'/../../../../_files/cms_image.php';
     }
 }
