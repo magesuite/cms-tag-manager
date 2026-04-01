@@ -11,21 +11,16 @@ namespace MageSuite\CmsTagManager\Test\Integration\Controller\Adminhtml\Teaser;
  */
 class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendController
 {
-    protected ?\Magento\TestFramework\ObjectManager $objectManager;
     protected ?\MageSuite\Opengraph\Service\Processor\UploadImage $uploadProcessor;
     protected ?\MageSuite\CmsTagManager\Api\TagsRepositoryInterface $tagsRepository;
     protected ?\Magento\Framework\Filesystem $filesystem;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->objectManager = \Magento\TestFramework\ObjectManager::getInstance();
-
-        $this->uploadProcessor = $this->objectManager->create(\MageSuite\Opengraph\Service\Processor\UploadImage::class);
-
-        $this->tagsRepository = $this->objectManager->create(\MageSuite\CmsTagManager\Api\TagsRepositoryInterface::class);
-
-        $this->filesystem = $this->objectManager->create(\Magento\Framework\Filesystem::class);
+        $this->uploadProcessor = $this->_objectManager->create(\MageSuite\Opengraph\Service\Processor\UploadImage::class);
+        $this->tagsRepository = $this->_objectManager->create(\MageSuite\CmsTagManager\Api\TagsRepositoryInterface::class);
+        $this->filesystem = $this->_objectManager->create(\Magento\Framework\Filesystem::class);
     }
 
     /**
@@ -38,13 +33,14 @@ class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendControll
             'cms_image_teaser' => [
                 'name' => 'magento_image.jpg',
                 'type' => 'image/jpg',
-                'tmp_name' => __DIR__.'/../../../../_files/tmp/magento_image.jpg',
+                'tmp_name' => __DIR__ . '/../../../../_files/tmp/magento_image.jpg',
                 'error' => 0,
                 'size' => 13864
             ]
         ];
         $fileParameters = new \Laminas\Stdlib\Parameters();
         $fileParameters->set('cms_image_teaser', $_FILES['cms_image_teaser']); // phpcs:ignore
+        $this->getRequest()->setMethod(\Magento\Framework\App\Request\Http::METHOD_POST);
         $this->getRequest()->setFiles($fileParameters);
         $this->dispatch('backend/cmstags/teaser/upload');
 
@@ -69,14 +65,13 @@ class UploadTest extends \Magento\TestFramework\TestCase\AbstractBackendControll
             'brand_icon' => [
                 'name' => 'magento_image.jpg',
                 'type' => 'image/jpg',
-                'tmp_name' => __DIR__.'/../../../d/_files/tmp/magento_image.jpg',
+                'tmp_name' => __DIR__ . '/../../../d/_files/tmp/magento_image.jpg',
                 'error' => 0,
                 'size' => 13864
             ]
         ];
-
+        $this->getRequest()->setMethod(\Magento\Framework\App\Request\Http::METHOD_POST);
         $this->dispatch('backend/cmstags/teaser/upload');
-
         $response = json_decode($this->getResponse()->getBody(), true);
 
         $this->assertTrue(isset($response['error']));

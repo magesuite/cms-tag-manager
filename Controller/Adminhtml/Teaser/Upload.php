@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace MageSuite\CmsTagManager\Controller\Adminhtml\Teaser;
 
-class Upload extends \Magento\Backend\App\Action
+class Upload extends \Magento\Backend\App\Action implements \Magento\Framework\App\Action\HttpPostActionInterface
 {
-    /**
-     * Save constructor.
-     * @param \Magento\Backend\App\Action\Context $context
-     */
+    public const ADMIN_RESOURCE = 'Magento_Cms::page';
+
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         protected \MageSuite\Opengraph\Service\Processor\UploadImageFactory $uploadImage
@@ -17,9 +15,6 @@ class Upload extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
-    /**
-     * @return \Magento\Framework\Controller\ResultFactory
-     */
     public function execute() //phpcs:ignore
     {
         try {
@@ -27,14 +22,7 @@ class Upload extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $result = ['error' => $e->getMessage(), 'errorcode' => $e->getCode()];
         }
-        return $this->resultFactory->create(\Magento\Framework\Controller\ResultFactory::TYPE_JSON)->setData($result);
-    }
 
-    /**
-     * @return bool
-     */
-    protected function _isAllowed() //phpcs:ignore
-    {
-        return true;
+        return $this->resultFactory->create(\Magento\Framework\Controller\ResultFactory::TYPE_JSON)->setData($result);
     }
 }
