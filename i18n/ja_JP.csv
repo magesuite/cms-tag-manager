@@ -1,0 +1,4 @@
+Tags,タグ
+"Please insert all tags assigned to this CMS Page. Follow comma separated pattern without surrounding spaces. Example: ""first tag,second tag,tagThree,lastTag""","このページに割り当てる全てのタグをセットしてください。 カンマ区切りで、間にスペースは含めないでください。 例: ""最初のタグ,2番めのタグ,3番めのタグ,最後のタグ"""
+"Image Teaser","ティーザー画像"
+"Allowed file types: png, gif, jpg, jpeg, svg. Max file size 1MB.","許可されている拡張子: png, gif, jpg, jpeg, svg。 最大ファイルサイズは 1MB です。"
